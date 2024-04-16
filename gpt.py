@@ -4,15 +4,23 @@ import random
 
 
 import openai
-from dotenv import dotenv_values
+import os
+from dotenv import dotenv_values, load_dotenv
 from data import *
 from flask import jsonify
 
 # Load the .env file
 config = dotenv_values('.env')
+load_dotenv()
 
 # Access the specific key
-KEY = config.get('KEY')
+# KEY = config.get('KEY')
+KEY = os.getenv('KEY')
+
+if KEY is None:
+    print("API_KEY is not set.")
+else:
+    print("API_KEY is set.")
 
 openai.api_key = KEY
 
@@ -84,6 +92,8 @@ def createAttributes(messages, responseTemplate, transcript, quizData):
         response['response'] = chat_completion
         # print(response)
         
+        if (__name__ == "__main__" ):
+            print(response)
         return response
 
     except Exception as e:
